@@ -379,8 +379,9 @@ bool loadEffectFromFile(
 	std::ifstream fs_is(fs_path);
 	if (!vs_is.good() || !fs_is.good())
 	{
-		fprintf(stderr, "Failed to load shader files %s, %s", vs_path.c_str(), fs_path.c_str());
+		fprintf(stderr, "Failed to load shader files %s, %s\n", vs_path.c_str(), fs_path.c_str());
 		assert(false);
+
 		return false;
 	}
 

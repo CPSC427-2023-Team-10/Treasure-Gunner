@@ -31,6 +31,28 @@ endif()
 
 # Create executable target
 
+# Prepare data for external use
+# ChatGPT Relative project path
+# Get the absolute path to the source directory
+get_filename_component(ABSOLUTE_PROJECT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR} ABSOLUTE)
+
+
+set(DATA_DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/data DESTINATION ${DATA_DESTINATION})
+
+set(SHADER_DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/shaders DESTINATION ${SHADER_DESTINATION})
+
+
+
+# Make PROJECT_SOURCE_DIR relative to CMAKE_BINARY_DIR
+set(RELATIVE_DATA_DIR "./")
+
+
+add_custom_target(CopyDataFiles ALL DEPENDS ${DATA_DESTINATION})
+add_custom_target(CopyShaderFiles ALL DEPENDS ${SHADER_DESTINATION})
+
+
 # Generate the shader folder location to the header
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/ext/project_path.hpp.in" "${CMAKE_CURRENT_SOURCE_DIR}/ext/project_path.hpp")
 
@@ -41,27 +63,6 @@ file(GLOB SOURCE_FILES src/*.cpp src/*.hpp)
 set(IMGUI_PATH ${CMAKE_CURRENT_SOURCE_DIR}/ext/imgui/)
 file(GLOB IMGUI_SOURCE_FILES ${IMGUI_PATH}/*.cpp)
 
-#set(SOURCE_FILES
-#	src/main.cpp
-#	src/common.cpp
-#	src/fish.cpp
-#	src/salmon.cpp
-#	src/turtle.cpp
-#	src/water.cpp
-#	src/world.cpp
-#	src/mini_ecs.cpp
-# 	src/pebbles.cpp
-
-#    ext/project_path.hpp
-#	src/common.hpp
-#	src/fish.hpp
-#	src/salmon.hpp
-#	src/turtle.hpp
-#	src/water.hpp
-#	src/world.hpp
-#	src/mini_ecs.hpp
-#	src/pebbles.hpp
-#	)
 
 # external libraries will be installed into /usr/local/include and /usr/local/lib but that folder is not automatically included in the search on MACs
 if (IS_OS_MAC)
