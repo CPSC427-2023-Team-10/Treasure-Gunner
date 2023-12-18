@@ -290,12 +290,13 @@ Entity createBoss(RenderSystem* renderer, vec2 position, vec2 velocity, int coin
 	}
 
 	boss.health = new_health;
+	boss.coin_drop = new_coins;
 	
 	if (boss.health >= boss.max_health) {
 		boss.health = boss.max_health;
 	}
-	if (new_coins <= boss.coin_drop) {
-		boss.coin_drop = new_coins;
+	if (boss.coin_drop >= boss.max_drop) {
+		boss.coin_drop = boss.max_drop;
 	}
 
 	// Create a collision mesh for the entity
